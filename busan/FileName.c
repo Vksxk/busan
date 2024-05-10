@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-//파라미터 
+//2-2 파라미터 
 #define LEN_MIN 15 // 기차 길이             
 #define LEN_MAX 50
 #define STM_MIN 0 // 마동석 체력
@@ -27,22 +27,44 @@
 #define ACTION_PROVOKE 1
 #define ACTION_PULL 2
 
-
 int main(void) {
 	srand((unsigned int)time(NULL));
 	printf("                                                  \n                            .,       ,,      ...  \n   !=.     !=,       ::     $#.     .#$    $*;#;  \n   =#-     =#-       $#     $#.  .***##*** #=;#;  \n   =#########-       $#     $#.  ,$$$$$$$$ #=;#;  \n   =#=*****##-       ##-    $#.     -;;-   #=;#;  \n   =#,     =#-      -##$    $#!;, .$####=..#=;#;  \n   =##$$$$$##-     .$#$#;   $###: ;#;  =####=;#;  \n   *$$$$$$$$$-    .=#! $#=. $#.   !#-  ;#!;#=;#;  \n                 ~##*   $#* $#.   -##=$##  #=;#;  \n =$$$$$$$$$$$$$~  *;     ~  $#.    ,=##*.  *!;#:  \n ##############:    -:,     $#.        ~=$#$*,    \n       $#.          !#~     $#.      ,###$$###$   \n       $#.          !#~              $#:     =#:  \n       $#.          !#~              $#,     !#;  \n       $#.          !#########:      ~##=!;!$##,  \n       $#.          ~!!!!!!!!!-       ,=#####!.   \n       ..                                ..       \n");
-	int train, percentile;
-	printf("train length(%d~%d)>>", LEN_MIN, LEN_MAX);
-	scanf_s("%d", &train);
+	int train, percentile, stamina;
+	// 2-2 기차 입력값 처리
+	while (1) {
+		printf("train length(%d~%d)>>", LEN_MIN, LEN_MAX);
+		scanf_s("%d", &train);
+		if (train >= LEN_MIN && train <= LEN_MAX) {
+			break;
+		}
+		else {
+		}
+	}
+	// 2-2 마동석 입력값 처리
+	while (1) {
+		printf("madongseok stamina(%d~%d)>>", STM_MIN, STM_MAX);
+		scanf_s("%d", &stamina);
+		if (stamina >= STM_MIN && stamina <= STM_MAX) {
+			break;
+		}
+		else {
+		}
+	}
+	// 2-2 확률 입력값 처리
+	while (1) {
+		printf("percentile probability 'p'(%d~%d)>>", PROB_MIN, PROB_MAX);
+		scanf_s("%d", &percentile);
+		if (percentile >= PROB_MIN && percentile <= PROB_MAX) {
+			break;
+		}
+		else {
+		}
+	}
+	
 	int zombie = train - 3;
 	int citizen = train - 6;
 	int turn = 1;
-	if (train < LEN_MIN || train > LEN_MAX)
-		return 0;
-	printf("percentile probability 'p'(%d~%d)>>", PROB_MIN, PROB_MAX);
-	scanf_s("%d", &percentile);
-	if (percentile < PROB_MIN || percentile > PROB_MAX)
-		return 0;
 	for (int i = 1; i <= train; i++) {
 		printf("#");
 	}
