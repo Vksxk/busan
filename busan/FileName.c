@@ -87,17 +87,42 @@ int main(void) {
 	}
 	printf("\n");
 	printf("\n");
+
+	// 2 - 3 이동
+	int move;
+	int citizen_aggro = 1;
+	int madongseok_aggro = 1;
 	while (1) {
+		printf("madongseok move(0:stay, 1:left)>>");
+		scanf_s("%d", &move);
+		if (move == 0) {
+			madongseok_aggro--;
+			break;
+		}
+		else if (move == 1) {
+			madongseok_aggro++;
+			break;
+		}
+		else {
+
+		}
+
+	}
+
+	while (1) {
+		//시민 이동
 		int citizen_chance = rand() % 100;
 		if (citizen_chance < 100 - percentile) {
 			citizen = (citizen > 1) ? (citizen - 1) : 1;
 		}
+		//좀비 이동
 		int zombie_chance = rand() % 100;
 		if (turn % 2 == 1) {
 			if (zombie_chance > 100 - percentile) {
 				zombie = (zombie > 1) ? (zombie - 1) : 1;
 			}
 		}
+		//출력
 		printf("\n");
 		for (int i = 1; i <= train; i++) {
 			printf("#");
@@ -121,11 +146,13 @@ int main(void) {
 		}
 		printf("\n");
 		printf("\n");
+		// 출력
 		if (citizen_chance < 100 - percentile) {
 			printf("citizen: %d -> %d\n", citizen + 1, citizen);
 		}
 		else
 			printf("citizen: stay %d\n", citizen);
+		// 좀비 턴 계산
 		if (turn % 2 == 0) {
 			printf("zombie: stay %d (cannot move)\n\n", zombie);
 		}
@@ -143,7 +170,6 @@ int main(void) {
 			break;
 		}
 		turn++;
-		Sleep(4000);
 	}
 	return 0;
 }
