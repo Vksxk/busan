@@ -53,7 +53,7 @@ int main(void) {
 	}
 	// 2-2 확률 입력값 처리
 	while (1) {
-		printf("percentile probability 'p'(%d~%d)>>", PROB_MIN, PROB_MAX);
+		printf("percentile probability 'p'(%d~%d)>>", PROB_MIN, PROB_MAX);	
 		scanf_s("%d", &percentile);
 		if (percentile >= PROB_MIN && percentile <= PROB_MAX) {
 			break;
@@ -61,7 +61,7 @@ int main(void) {
 		else {
 		}
 	}
-	
+	// 출력
 	int zombie = train - 3;
 	int citizen = train - 6;
 	int turn = 1;
@@ -92,35 +92,32 @@ int main(void) {
 	int move;
 	int citizen_aggro = 1;
 	int madongseok_aggro = 1;
-	while (1) {
-		printf("madongseok move(0:stay, 1:left)>>");
-		scanf_s("%d", &move);
-		if (move == 0) {
-			madongseok_aggro--;
-			break;
-		}
-		else if (move == 1) {
-			madongseok_aggro++;
-			break;
-		}
-		else {
-
-		}
-
-	}
 
 	while (1) {
 		//시민 이동
 		int citizen_chance = rand() % 100;
 		if (citizen_chance < 100 - percentile) {
-			citizen = (citizen > 1) ? (citizen - 1) : 1;
+			citizen--;
+			citizen_aggro++;
 		}
+		else
+			citizen_aggro--;
+			
 		//좀비 이동
 		int zombie_chance = rand() % 100;
 		if (turn % 2 == 1) {
 			if (zombie_chance > 100 - percentile) {
 				zombie = (zombie > 1) ? (zombie - 1) : 1;
 			}
+		}
+		//마동석 이동
+		printf("madongseok move(0:stay, 1:left)>>");
+		scanf_s("%d", &move);
+		if (move == 0) {
+			madongseok_aggro--;
+		}
+		else if (move == 1) {
+			madongseok_aggro++;
 		}
 		//출력
 		printf("\n");
@@ -148,7 +145,7 @@ int main(void) {
 		printf("\n");
 		// 출력
 		if (citizen_chance < 100 - percentile) {
-			printf("citizen: %d -> %d\n", citizen + 1, citizen);
+			printf("citizen: %d -> %d  (aggro: %d -> %d)\n", citizen + 1, citizen, citizen_aggro - 1, citizen_aggro);
 		}
 		else
 			printf("citizen: stay %d\n", citizen);
