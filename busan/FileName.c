@@ -26,6 +26,30 @@
 #define ACTION_REST 0
 #define ACTION_PROVOKE 1
 #define ACTION_PULL 2
+//2-1 정리
+void map(int train, int citizen, int zombie) {
+	for (int i = 1; i <= train; i++) {
+		printf("#");
+	}
+	printf("\n#");
+	for (int i = 1; i <= train; i++) {
+		if (i == citizen)
+			printf("C");
+		else if (i == zombie)
+			printf("Z");
+		else if (i == train - 2)
+			printf("M");
+		else if (i == train - 1)
+			printf("#");
+		else
+			printf(" ");
+	}
+	printf("\n");
+	for (int i = 1; i <= train; i++) {
+		printf("#");
+	}
+	printf("\n\n");
+}
 
 int main(void) {
 	srand((unsigned int)time(NULL));
@@ -61,34 +85,12 @@ int main(void) {
 		else {
 		}
 	}
-	// 출력
 	int zombie = train - 3;
 	int citizen = train - 6;
 	int turn = 1;
-	for (int i = 1; i <= train; i++) {
-		printf("#");
-	}
-	printf("\n#");
-	for (int i = 1; i <= train; i++) {
-		if (i == citizen)
-			printf("C");
-		else if (i == zombie)
-			printf("Z");
-		else if (i == train - 2)
-			printf("M");
-		else if (i == train - 1)
-			printf("#");
-		else 
-			printf(" ");
-	}
+	//출력
 	printf("\n");
-	for (int i = 1; i <= train; i++) {
-		printf("#");
-	}
-	printf("\n");
-	printf("\n");
-
-	// 2 - 3 이동
+	map(train, citizen, zombie);
 	int move;
 	int citizen_aggro = 1;
 	int madongseok_aggro = 1;
@@ -110,40 +112,10 @@ int main(void) {
 				zombie = (zombie > 1) ? (zombie - 1) : 1;
 			}
 		}
-		//마동석 이동
-		printf("madongseok move(0:stay, 1:left)>>");
-		scanf_s("%d", &move);
-		if (move == 0) {
-			madongseok_aggro--;
-		}
-		else if (move == 1) {
-			madongseok_aggro++;
-		}
-		//출력
-		printf("\n");
-		for (int i = 1; i <= train; i++) {
-			printf("#");
-		}
-		printf("\n#");
-		for (int i = 1; i <= train; i++) {
-			if (i == citizen)
-				printf("C");
-			else if (i == zombie)
-				printf("Z");
-			else if (i == train - 2)
-				printf("M");
-			else if (i == train - 1)
-				printf("#");
-			else
-				printf(" ");
-		}
-		printf("\n");
-		for (int i = 1; i <= train; i++) {
-			printf("#");
-		}
-		printf("\n");
-		printf("\n");
 		// 출력
+		map(train, citizen, zombie);
+
+		//시민 이동 계산 + 어그로
 		if (citizen_chance < 100 - percentile) {
 			printf("citizen: %d -> %d  (aggro: %d -> %d)\n", citizen + 1, citizen, citizen_aggro - 1, citizen_aggro);
 		}
@@ -165,6 +137,15 @@ int main(void) {
 		if (zombie == citizen + 1) {
 			printf("GAME OVER!\nCitizen(s) has(have) been attacked by a zombie");
 			break;
+		}
+		// 마동석 이동
+			printf("madongseok move(0:stay, 1:left)>>");
+		scanf_s("%d", &move);
+		if (move == 0) {
+			madongseok_aggro--;
+		}
+		else if (move == 1) {
+			madongseok_aggro++;
 		}
 		turn++;
 	}
