@@ -27,6 +27,48 @@
 #define ACTION_PROVOKE 1
 #define ACTION_PULL 2
 
+int percentileI(int a, int b) {
+	int percentile;
+	printf("percentile probability 'p'(%d~%d)>>", PROB_MIN, PROB_MAX);
+	scanf_s("%d", &percentile);
+	while (1) {
+		if (percentile >= PROB_MIN && percentile <= PROB_MAX) {
+			return percentile;
+		}
+		else {
+			printf("percentile probability 'p'(%d~%d)>>", PROB_MIN, PROB_MAX);
+			scanf_s("%d", &percentile);
+		}
+	}
+}
+int trainI(int a, int b) {
+	int train;
+	printf("train length(%d~%d)>>", LEN_MIN, LEN_MAX);
+	scanf_s("%d", &train);
+	while (1) {
+		if (train >= LEN_MIN && train <= LEN_MAX) {
+			return train;
+		}
+		else {
+			printf("train length(%d~%d)>>", LEN_MIN, LEN_MAX);
+			scanf_s("%d", &train);
+		}
+	}
+}
+int staminaI(int a, int b) {
+	int stamina;
+	printf("madongseok stamina(%d~%d)>>", STM_MIN, STM_MAX);
+	scanf_s("%d", &stamina);
+	while (1) {
+		if (stamina >= STM_MIN && stamina <= STM_MAX) {
+			return stamina;
+		}
+		else {
+			printf("madongseok stamina(%d~%d)>>", STM_MIN, STM_MAX);
+			scanf_s("%d", &stamina);
+		}
+	}
+}
 
 //출력 변수
 void map(int train, int citizen, int zombie, int madongseok) {
@@ -55,38 +97,11 @@ void map(int train, int citizen, int zombie, int madongseok) {
 
 int main(void) {
 	srand((unsigned int)time(NULL));
-	//인트로 printf("                                                  \n                            .,       ,,      ...  \n   !=.     !=,       ::     $#.     .#$    $*;#;  \n   =#-     =#-       $#     $#.  .***##*** #=;#;  \n   =#########-       $#     $#.  ,$$$$$$$$ #=;#;  \n   =#=*****##-       ##-    $#.     -;;-   #=;#;  \n   =#,     =#-      -##$    $#!;, .$####=..#=;#;  \n   =##$$$$$##-     .$#$#;   $###: ;#;  =####=;#;  \n   *$$$$$$$$$-    .=#! $#=. $#.   !#-  ;#!;#=;#;  \n                 ~##*   $#* $#.   -##=$##  #=;#;  \n =$$$$$$$$$$$$$~  *;     ~  $#.    ,=##*.  *!;#:  \n ##############:    -:,     $#.        ~=$#$*,    \n       $#.          !#~     $#.      ,###$$###$   \n       $#.          !#~              $#:     =#:  \n       $#.          !#~              $#,     !#;  \n       $#.          !#########:      ~##=!;!$##,  \n       $#.          ~!!!!!!!!!-       ,=#####!.   \n       ..                                ..       \n");
-	int train, percentile, stamina;
-	// 2-2 기차 입력값 처리
-	while (1) {
-		printf("train length(%d~%d)>>", LEN_MIN, LEN_MAX);
-		scanf_s("%d", &train);
-		if (train >= LEN_MIN && train <= LEN_MAX) {
-			break;
-		}
-		else {
-		}
-	}
-	// 2-2 마동석 입력값 처리
-	while (1) {
-		printf("madongseok stamina(%d~%d)>>", STM_MIN, STM_MAX);
-		scanf_s("%d", &stamina);
-		if (stamina >= STM_MIN && stamina <= STM_MAX) {
-			break;
-		}
-		else {
-		}
-	}
+	printf("                                                  \n                            .,       ,,      ...  \n   !=.     !=,       ::     $#.     .#$    $*;#;  \n   =#-     =#-       $#     $#.  .***##*** #=;#;  \n   =#########-       $#     $#.  ,$$$$$$$$ #=;#;  \n   =#=*****##-       ##-    $#.     -;;-   #=;#;  \n   =#,     =#-      -##$    $#!;, .$####=..#=;#;  \n   =##$$$$$##-     .$#$#;   $###: ;#;  =####=;#;  \n   *$$$$$$$$$-    .=#! $#=. $#.   !#-  ;#!;#=;#;  \n                 ~##*   $#* $#.   -##=$##  #=;#;  \n =$$$$$$$$$$$$$~  *;     ~  $#.    ,=##*.  *!;#:  \n ##############:    -:,     $#.        ~=$#$*,    \n       $#.          !#~     $#.      ,###$$###$   \n       $#.          !#~              $#:     =#:  \n       $#.          !#~              $#,     !#;  \n       $#.          !#########:      ~##=!;!$##,  \n       $#.          ~!!!!!!!!!-       ,=#####!.   \n       ..                                ..       \n");
+	int train = trainI(LEN_MIN, LEN_MAX);
+	int stamina = staminaI(STM_MIN, STM_MAX);
+	int percentile = percentileI(PROB_MIN, PROB_MAX);
 	// 2-2 확률 입력값 처리
-	while (1) {
-		printf("percentile probability 'p'(%d~%d)>>", PROB_MIN, PROB_MAX);	
-		scanf_s("%d", &percentile);
-		if (percentile >= PROB_MIN && percentile <= PROB_MAX) {
-			break;
-		}
-		else {
-		}
-	}
 	int zombie = train - 3;
 	int madongseok = train - 2;
 	int citizen = train - 6;
@@ -99,8 +114,7 @@ int main(void) {
 	int citizen_aggro = 1;
 	int madongseok_aggro = 1;
 	int action;
-	int mds_aggro = 1;
-
+	int mds_aggro = madongseok_aggro;
 	while (1) {
 		//<이동>페이즈
 		//시민 이동
@@ -172,8 +186,11 @@ int main(void) {
 					scanf_s("%d", &move);
 				}
 			}
-		map(train, citizen, zombie, madongseok);
+			map(train, citizen, zombie, madongseok);
 		}
+
+		//행동페이지
+		//인접했을때
 		if (madongseok == zombie + 1) {
 			printf("madongseok action(0.rest, 1.provoke, 2. pull)>>");
 			scanf_s("%d", &action);
@@ -240,6 +257,9 @@ int main(void) {
 		if (citizen == 1) {
 			printf("SUCCESS!\ncitizen(s) escaped to the next train");
 			break;
+		}
+		else {
+			printf("citizen does nothing.\n");
 		}
 		//좀비 승리
 		if (zombie == citizen + 1 && zombie == madongseok - 1) {
