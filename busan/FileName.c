@@ -26,8 +26,32 @@
 #define ACTION_REST 0
 #define ACTION_PROVOKE 1
 #define ACTION_PULL 2
+
+
+int madongseok12(int a) {
+	int action;
+	if (a == 1) {
+		printf("madongseok action(0.rest, 1.provoke)>>");
+		scanf_s("%d", &action);
+		if (action == 0) {
+			printf("madongseok rets...");
+			return 0;
+		}
+		else if (action == 2) {
+			printf("madongseok provoked zombie...");
+			return 0;
+		}
+		else if (action == 3) {
+			//붙잡기 성공 과정
+			printf("madongseok pulled zombie... Next turn, it can't move");
+			printf("madongseok: 7 (aggro: %d -> %d, stamina: %d -> %d");
+
+		}
+	}
+}
+
 //2-1 정리
-void map(int train, int citizen, int zombie) {
+void map(int train, int citizen, int zombie, int madongseok) {
 	for (int i = 1; i <= train; i++) {
 		printf("#");
 	}
@@ -37,7 +61,7 @@ void map(int train, int citizen, int zombie) {
 			printf("C");
 		else if (i == zombie)
 			printf("Z");
-		else if (i == train - 2)
+		else if (i == madongseok)
 			printf("M");
 		else if (i == train - 1)
 			printf("#");
@@ -53,7 +77,7 @@ void map(int train, int citizen, int zombie) {
 
 int main(void) {
 	srand((unsigned int)time(NULL));
-	printf("                                                  \n                            .,       ,,      ...  \n   !=.     !=,       ::     $#.     .#$    $*;#;  \n   =#-     =#-       $#     $#.  .***##*** #=;#;  \n   =#########-       $#     $#.  ,$$$$$$$$ #=;#;  \n   =#=*****##-       ##-    $#.     -;;-   #=;#;  \n   =#,     =#-      -##$    $#!;, .$####=..#=;#;  \n   =##$$$$$##-     .$#$#;   $###: ;#;  =####=;#;  \n   *$$$$$$$$$-    .=#! $#=. $#.   !#-  ;#!;#=;#;  \n                 ~##*   $#* $#.   -##=$##  #=;#;  \n =$$$$$$$$$$$$$~  *;     ~  $#.    ,=##*.  *!;#:  \n ##############:    -:,     $#.        ~=$#$*,    \n       $#.          !#~     $#.      ,###$$###$   \n       $#.          !#~              $#:     =#:  \n       $#.          !#~              $#,     !#;  \n       $#.          !#########:      ~##=!;!$##,  \n       $#.          ~!!!!!!!!!-       ,=#####!.   \n       ..                                ..       \n");
+	//인트로 printf("                                                  \n                            .,       ,,      ...  \n   !=.     !=,       ::     $#.     .#$    $*;#;  \n   =#-     =#-       $#     $#.  .***##*** #=;#;  \n   =#########-       $#     $#.  ,$$$$$$$$ #=;#;  \n   =#=*****##-       ##-    $#.     -;;-   #=;#;  \n   =#,     =#-      -##$    $#!;, .$####=..#=;#;  \n   =##$$$$$##-     .$#$#;   $###: ;#;  =####=;#;  \n   *$$$$$$$$$-    .=#! $#=. $#.   !#-  ;#!;#=;#;  \n                 ~##*   $#* $#.   -##=$##  #=;#;  \n =$$$$$$$$$$$$$~  *;     ~  $#.    ,=##*.  *!;#:  \n ##############:    -:,     $#.        ~=$#$*,    \n       $#.          !#~     $#.      ,###$$###$   \n       $#.          !#~              $#:     =#:  \n       $#.          !#~              $#,     !#;  \n       $#.          !#########:      ~##=!;!$##,  \n       $#.          ~!!!!!!!!!-       ,=#####!.   \n       ..                                ..       \n");
 	int train, percentile, stamina;
 	// 2-2 기차 입력값 처리
 	while (1) {
@@ -86,11 +110,13 @@ int main(void) {
 		}
 	}
 	int zombie = train - 3;
+	int madongseok = train - 2;
 	int citizen = train - 6;
 	int turn = 1;
 	//출력
 	printf("\n");
-	map(train, citizen, zombie);
+	map(train, citizen, zombie,madongseok);
+	printf("\n\n");
 	int move;
 	int citizen_aggro = 1;
 	int madongseok_aggro = 1;
@@ -109,27 +135,37 @@ int main(void) {
 		int zombie_chance = rand() % 100;
 		if (turn % 2 == 1) {
 			if (zombie_chance > 100 - percentile) {
-				zombie = (zombie > 1) ? (zombie - 1) : 1;
+				if (citizen_aggro >= madongseok_aggro) {
+					zombie--;
+				}
+				else
+					zombie++;
 			}
 		}
-		// 출력
-		map(train, citizen, zombie);
+		//상태 출력
+		map(train, citizen, zombie, madongseok);
 
-		//시민 이동 계산 + 어그로
+		//시민 이동 
 		if (citizen_chance < 100 - percentile) {
 			printf("citizen: %d -> %d  (aggro: %d -> %d)\n", citizen + 1, citizen, citizen_aggro - 1, citizen_aggro);
 		}
 		else
 			printf("citizen: stay %d\n", citizen);
-		// 좀비 턴 계산
+		// 좀비 턴
 		if (turn % 2 == 0) {
 			printf("zombie: stay %d (cannot move)\n\n", zombie);
 		}
+		//좀비 이동
 		else if (zombie_chance > 100 - percentile) {
-			printf("zombie: % d -> % d\n\n", zombie + 1, zombie);
+			if (citizen_aggro >= madongseok_aggro) {
+				printf("zombie: %d -> %d\n\n", zombie + 1, zombie);
+			}
+			else
+				printf("zombie: %d -> %d\n\n", zombie - 1, zombie);
 		}
 		else
 			printf("zombie: stay %d\n\n", zombie);
+		//상태 출력
 		if (citizen == 1) {
 			printf("SUCCESS!\ncitizen(s) escaped to the next train");
 			break;
@@ -139,14 +175,45 @@ int main(void) {
 			break;
 		}
 		// 마동석 이동
-			printf("madongseok move(0:stay, 1:left)>>");
-		scanf_s("%d", &move);
-		if (move == 0) {
-			madongseok_aggro--;
+		if (madongseok == zombie + 1) {
+			while (1) {
+				printf("madongseok move(0:stay)>>");
+				scanf_s("%d", &move);
+				if (move == 0) {
+					madongseok_aggro--;
+					break;
+				}
+				else {
+					printf("madongseok move(0:stay)>>");
+					scanf_s("%d", &move);
+				}
+			}
 		}
-		else if (move == 1) {
-			madongseok_aggro++;
+		else {
+			while (1) {
+				printf("madongseok move(0:stay, 1:left)>>");
+				scanf_s("%d", &move);
+				if (move == 0) {
+					madongseok_aggro--;
+					break;
+				}
+				else if (move == 1) {
+					madongseok_aggro++;
+					break;
+				}
+				else {
+					printf("madongseok move(0:stay, 1:left)>>");
+					scanf_s("%d", &move);
+				}
+			}
 		}
+		//출력
+		map(train, citizen, zombie, madongseok);
+
+		//행동 페이즈
+		
+
+		//다음턴으로
 		turn++;
 	}
 	return 0;
