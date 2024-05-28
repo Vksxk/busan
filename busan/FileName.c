@@ -28,6 +28,7 @@
 #define ACTION_PROVOKE 1
 #define ACTION_PULL 2
 
+//2-1 정리
 //마동석 행동 입력
 int madongseok_P(int a) {
 	int percentile;
@@ -220,7 +221,7 @@ int main(void) {
 	int madongseok_chance;
 	while (1) {
 		int zombie_C = 0;
-		//<이동>페이즈
+		//2-3 <이동>페이즈
 		//시민 이동
 		citizen_chance = random(percentile);
 		if (citizen_chance == 1) {
@@ -339,7 +340,7 @@ int main(void) {
 		else if (madongseok_chance == 1) {
 			printf("madongseok: left %d(aggro: %d -> %d, stamina: %d)\n\n", madongseok, madongseok_aggro - 1, madongseok_aggro, stamina);
 		}
-		//<행동>페이지
+		//2-4 <행동>페이지
 		//시민 행동
 		if (citizen == 1) {
 			printf("SUCCESS! citizen(s) escaped to the next train");
